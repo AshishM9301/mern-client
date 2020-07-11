@@ -1,14 +1,12 @@
 import {
-  ERROR_DELETE,
-  ERROR_FETCH,
-  ERROR_SHOW,
   REGISTER_FAIL,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
   SIGN_OUT,
-  GET_ERROR,
-  CLEAR_ERROR,
   REGISTERSUCCESS,
+  USER_LOADING,
+  USER_LOADED,
+  AUTH_ERROR,
 } from './types';
 
 import { returnError } from './errorAction';
@@ -16,20 +14,39 @@ import { returnError } from './errorAction';
 import connect from '../routes/connect';
 import Axios from 'axios';
 import { getMessage } from './msgAction';
+import { browserHistory } from '../components/Header/Header';
+
+export const loadUser = () => (dispatch) => {
+  dispatch({ type: USER_LOADING });
+  Axios.get('http://localhost:5000/api/users/auth')
+    .then((res) => {
+      dispatch({
+        type: USER_LOADED,
+        payload: res.data,
+      });
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch(returnError(err.response.data, 'AUTH_ERROR'));
+      dispatch({ type: AUTH_ERROR });
+    });
+};
 
 export const signIn = (formValues) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
     const body = JSON.stringify(formValues);
-    Axios.post('http://localhost:5000/api/users/login', body, config)
+    await Axios.post('http://localhost:5000/api/users/login', body, config)
       .then((res) => {
         dispatch(getMessage(res.data.message, 'LOGIN_SUCCESS'));
         dispatch({
           type: LOGIN_SUCCESS,
+          payload: res.data,
         });
       })
       .catch((err) => {
@@ -74,4 +91,26 @@ export const register = (formValues) => {
         });
     }
   };
+};
+
+export const logout = () => (dispatch) => {
+  dispatch({ type: SIGN_OUT });
+};
+
+export const configToken = (getState) => {
+  const token = getState().auth.token;
+
+  // Headers
+  const config = {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  };
+
+  //If Token, add to headers
+  if (token) {
+    config.headers['end_auth'] = token;
+  }
+
+  return config;
 };

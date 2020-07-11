@@ -15,7 +15,7 @@ export class Login extends Component {
   };
 
   componentDidUpdate(pervProps) {
-    const { error, success } = this.props;
+    const { error, success, user } = this.props;
     if (error !== pervProps.error) {
       // Check for register error
       if (error.id === 'LOGIN_FAIL') {
@@ -27,7 +27,7 @@ export class Login extends Component {
     //If Authenticated
 
     if (success) {
-      this.props.history.push('/');
+      this.props.history.push(`/dashboard`);
     }
   }
 
@@ -44,7 +44,6 @@ export class Login extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state);
     const { email, password } = this.state;
 
     const loginUser = {
@@ -81,10 +80,10 @@ export class Login extends Component {
           </div>
         ) : null}
         <div
-          className='w-full max-w-lg mx-auto flex items-center justify-center'
+          className='w-full mx-auto flex items-center justify-center'
           style={{ height: '100vmin' }}>
           <form
-            className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'
+            className=' w-1/3 bg-white shadow-md rounded px-10 pt-6 pb-8 mb-4'
             onSubmit={this.onSubmit}>
             <div className='mb-5'>
               <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold m-4 ml-2'>
@@ -93,7 +92,7 @@ export class Login extends Component {
               <input
                 name='email'
                 type='email'
-                className='shadow appearance-none border rounded w-full py-2 px-24 mb-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                className='shadow appearance-none border rounded w-full py-2 px-6 mb-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                 onChange={this.onChange}
               />
             </div>
@@ -105,7 +104,7 @@ export class Login extends Component {
                 name='password'
                 type='password'
                 label=''
-                className='shadow appearance-none border rounded w-full py-2 px-24 mb-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                className='shadow appearance-none border rounded w-full py-2 px-6 mb-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                 onChange={this.onChange}
               />
             </div>
@@ -134,6 +133,7 @@ const propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+  user: state.auth.user,
   message: state.msg,
   error: state.error,
   success: state.auth.success,
