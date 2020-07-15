@@ -16,3 +16,6 @@ export const MESSAGE_SHOW = 'MESSAGE_SHOW';
 export const MESSAGE_CLEAR = 'MESSAGE_CLEAR';
 export const GET_PROFILE = 'GET_PROFILE';
 export const GET_PAYMENT = 'GET_PAYMENT';
+
+export const GOOGLE_SIGN_IN = 'GOOGLE_SIGN_IN';
+export const GOOGLE_SIGN_OUT = 'GOOGLE_SIGN_OUT';

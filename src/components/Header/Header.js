@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { createBrowserHistory } from 'history';
 
 import { logout } from '../../actions';
+import { GoogleAuth } from '../GoogleAuth/GoogleAuth';
 
 export const browserHistory = createBrowserHistory();
 export class Header extends Component {
@@ -52,12 +53,12 @@ export class Header extends Component {
       </div>
     );
     return (
-      <div className='border-b border-blue-400'>
+      <div className='border-b border-blue-400 bg-gray-800 text-gray-100'>
         <div className='flex p-4 justify-between container mx-auto'>
           <Link to='/' className='mr-3'>
-            <h4 className='font-semibold text-xl'>Site Name</h4>
+            <h4 className='font-semibold text-xl'>CO-Development</h4>
           </Link>
-          {isAuthenticated ? loginLinks : guestLinks}
+          <GoogleAuth />
         </div>
       </div>
     );

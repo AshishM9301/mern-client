@@ -7,6 +7,8 @@ import {
   USER_LOADING,
   USER_LOADED,
   AUTH_ERROR,
+  GOOGLE_SIGN_IN,
+  GOOGLE_SIGN_OUT,
 } from './types';
 
 import { returnError } from './errorAction';
@@ -33,7 +35,20 @@ export const loadUser = () => (dispatch) => {
     });
 };
 
-export const signIn = (formValues) => {
+export const signIn = (userId) => {
+  return {
+    type: GOOGLE_SIGN_IN,
+    payload: userId,
+  };
+};
+
+export const signOut = () => {
+  return {
+    type: GOOGLE_SIGN_OUT,
+  };
+};
+
+export const login = (formValues) => {
   return async (dispatch) => {
     const config = {
       headers: {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { signIn } from '../../actions';
+import { login } from '../../actions';
 import { clearError } from '../../actions/errorAction';
 
 export class Login extends Component {
@@ -50,7 +50,7 @@ export class Login extends Component {
       email,
       password,
     };
-    this.props.signIn(loginUser);
+    this.props.login(loginUser);
   };
 
   render() {
@@ -128,7 +128,7 @@ export class Login extends Component {
 const propTypes = {
   success: PropTypes.bool,
   error: PropTypes.object.isRequired,
-  signIn: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
 };
 
@@ -143,6 +143,6 @@ const mapStateToProps = (state) => ({
 
 // export const RegisterForm = reduxForm({ form: 'registerForm' })(Register);
 
-export default connect(mapStateToProps, { signIn, clearError })(
+export default connect(mapStateToProps, { login, clearError })(
   withRouter(Login)
 );
